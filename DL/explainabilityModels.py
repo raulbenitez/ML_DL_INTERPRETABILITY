@@ -24,7 +24,7 @@ def single_blob_occlusion(img, label, model):
         patched_image = np.array(regions, copy = True)
         patched_image[patched_image == region] = 0
         patched_image[patched_image > 0] = 1
-        predicted_classes = model.predict(np.array([patched_image]))[0]
+        predicted_classes = model.predict(np.array([patched_image]),verbose = 0)[0]
         confidence = predicted_classes[label]
 
         #save occlusion image with highest difference in confidence
@@ -51,7 +51,7 @@ def occlusion_map(img, label, patch_size, model):
     for top_left_x in range(0, img.shape[0], patch_size):
         for top_left_y in range(0, img.shape[1], patch_size):
             patched_image = apply_grey_patch(img, top_left_x, top_left_y, patch_size)
-            predicted_classes = model.predict(np.array([patched_image]))[0]
+            predicted_classes = model.predict(np.array([patched_image]),verbose = 0)[0]
             confidence = predicted_classes[label]
             
             # Save confidence for this specific patched image in map
@@ -70,7 +70,7 @@ def overlapping_occlusion_map(img, label, patch_size, step_size, model):
     for top_left_x in range(0, img.shape[0] - patch_size + 1, step_size):
         for top_left_y in range(0, img.shape[1] - patch_size + 1, step_size):
             patched_image = apply_grey_patch(img, top_left_x, top_left_y, patch_size)
-            predicted_classes = model.predict(np.array([patched_image]))[0]
+            predicted_classes = model.predict(np.array([patched_image]),verbose = 0)[0]
             confidence = predicted_classes[label]
             
             # Save confidence for this specific patched image in map
